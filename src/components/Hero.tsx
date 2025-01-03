@@ -1,6 +1,14 @@
 import { motion } from "framer-motion";
 
 export const Hero = () => {
+  const handleGetStarted = () => {
+    // Find and click the Chatbase widget button
+    const chatButton = document.querySelector('.chatbase-bubble__button') as HTMLButtonElement;
+    if (chatButton) {
+      chatButton.click();
+    }
+  };
+
   return (
     <section className="min-h-[90vh] flex items-center justify-center relative overflow-hidden bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5">
       {/* Animated background elements */}
@@ -65,6 +73,7 @@ export const Hero = () => {
             transition={{ duration: 0.8, delay: 0.6 }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            onClick={handleGetStarted}
           >
             Get Started
           </motion.button>
