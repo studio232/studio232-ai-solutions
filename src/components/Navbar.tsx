@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Code2 } from "lucide-react";
+import { Brain } from "lucide-react";
 
 export const Navbar = () => {
   return (
@@ -12,7 +12,7 @@ export const Navbar = () => {
             transition={{ duration: 0.5 }}
             className="flex items-center gap-2 text-primary font-semibold"
           >
-            <Code2 className="h-6 w-6" />
+            <Brain className="h-6 w-6" />
             <span>Studio 232</span>
           </motion.div>
         </div>
