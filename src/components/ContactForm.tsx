@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -34,11 +35,16 @@ export const ContactForm = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      // Here you would typically send the form data to your backend
-      console.log("Form submitted:", values);
+      const { error } = await supabase
+        .from('contact_submissions')
+        .insert([values]);
+      
+      if (error) throw error;
+      
       toast.success("Thanks for reaching out! We'll be in touch within a few hours.");
       form.reset();
     } catch (error) {
+      console.error('Error submitting form:', error);
       toast.error("Something went wrong. Please try again.");
     }
   };
