@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Mail } from "lucide-react";
+import { ContactForm } from "./ContactForm";
 
 export const ContactSection = () => {
   return (
@@ -14,17 +14,9 @@ export const ContactSection = () => {
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-8">Ready to Transform Your Business with AI?</h2>
           <p className="text-xl mb-12 opacity-90">
-            Contact us today for a free consultation and discover how our custom AI solutions can propel your business forward.
+            Fill out the form below and discover how our custom AI solutions can propel your business forward.
           </p>
-          <motion.a
-            href="mailto:contact@studio232.com"
-            className="inline-flex items-center space-x-3 bg-white text-primary px-8 py-4 rounded-lg text-lg font-semibold hover:bg-opacity-90 transition-all hover:scale-105 shadow-lg hover:shadow-xl"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <Mail className="w-6 h-6" />
-            <span>Get in Touch</span>
-          </motion.a>
+          <ContactForm />
         </motion.div>
       </div>
     </section>
