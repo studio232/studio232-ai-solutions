@@ -48,7 +48,7 @@ export const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-center"
+          className="text-center max-w-4xl mx-auto"
         >
           <motion.h1 
             className="text-5xl md:text-7xl font-bold mb-8 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent"
@@ -59,7 +59,7 @@ export const Hero = () => {
             Transform Your Business with Custom AI Solutions
           </motion.h1>
           <motion.p 
-            className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto mb-12"
+            className="text-xl md:text-2xl text-gray-600 mb-12 mx-auto"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
