@@ -15,7 +15,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
-// Define the schema to match Supabase's requirements
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
@@ -23,14 +22,17 @@ const formSchema = z.object({
   message: z.string().min(10, "Please provide more details about your needs"),
 });
 
-// Ensure the type matches exactly what we expect to submit
-type FormValues = z.infer<typeof formSchema> & {
-  created_at?: string;
-  id?: string;
-};
+type FormData = z.infer<typeof formSchema>;
+
+interface SupabaseContact {
+  name: string;
+  email: string;
+  phone?: string | null;
+  message: string;
+}
 
 export const ContactForm = () => {
-  const form = useForm<FormValues>({
+  const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -40,16 +42,18 @@ export const ContactForm = () => {
     },
   });
 
-  const onSubmit = async (values: FormValues) => {
+  const onSubmit = async (values: FormData) => {
     try {
+      const contactData: SupabaseContact = {
+        name: values.name,
+        email: values.email,
+        message: values.message,
+        phone: values.phone || null,
+      };
+
       const { error } = await supabase
         .from('contact_submissions')
-        .insert({
-          name: values.name,
-          email: values.email,
-          phone: values.phone,
-          message: values.message,
-        });
+        .insert(contactData);
       
       if (error) throw error;
       
@@ -71,7 +75,7 @@ export const ContactForm = () => {
             <FormItem>
               <FormLabel className="text-white">Name</FormLabel>
               <FormControl>
-                <Input placeholder="Your name" {...field} className="bg-white/10 text-black placeholder:text-gray-500" />
+                <Input placeholder="Your name" {...field} className="bg-white/10 text-white placeholder:text-gray-300" />
               </FormControl>
               <FormMessage className="text-red-200" />
             </FormItem>
@@ -84,7 +88,7 @@ export const ContactForm = () => {
             <FormItem>
               <FormLabel className="text-white">Email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="your.email@example.com" {...field} className="bg-white/10 text-black placeholder:text-gray-500" />
+                <Input type="email" placeholder="your.email@example.com" {...field} className="bg-white/10 text-white placeholder:text-gray-300" />
               </FormControl>
               <FormMessage className="text-red-200" />
             </FormItem>
@@ -97,7 +101,7 @@ export const ContactForm = () => {
             <FormItem>
               <FormLabel className="text-white">Phone Number</FormLabel>
               <FormControl>
-                <Input type="tel" placeholder="Your phone number" {...field} className="bg-white/10 text-black placeholder:text-gray-500" />
+                <Input type="tel" placeholder="Your phone number" {...field} className="bg-white/10 text-white placeholder:text-gray-300" />
               </FormControl>
               <FormMessage className="text-red-200" />
             </FormItem>
@@ -112,7 +116,7 @@ export const ContactForm = () => {
               <FormControl>
                 <Textarea
                   placeholder="Share your business needs or challenges..."
-                  className="min-h-[120px] bg-white/10 text-black placeholder:text-gray-500"
+                  className="min-h-[120px] bg-white/10 text-white placeholder:text-gray-300"
                   {...field}
                 />
               </FormControl>
