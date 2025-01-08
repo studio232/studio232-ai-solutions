@@ -15,6 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
+// Define the schema to match Supabase's requirements
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Please enter a valid email address"),
@@ -22,7 +23,11 @@ const formSchema = z.object({
   message: z.string().min(10, "Please provide more details about your needs"),
 });
 
-type FormValues = z.infer<typeof formSchema>;
+// Ensure the type matches exactly what we expect to submit
+type FormValues = z.infer<typeof formSchema> & {
+  created_at?: string;
+  id?: string;
+};
 
 export const ContactForm = () => {
   const form = useForm<FormValues>({
@@ -39,7 +44,12 @@ export const ContactForm = () => {
     try {
       const { error } = await supabase
         .from('contact_submissions')
-        .insert(values);
+        .insert({
+          name: values.name,
+          email: values.email,
+          phone: values.phone,
+          message: values.message,
+        });
       
       if (error) throw error;
       
