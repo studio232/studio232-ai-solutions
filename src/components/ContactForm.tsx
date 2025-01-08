@@ -22,8 +22,10 @@ const formSchema = z.object({
   message: z.string().min(10, "Please provide more details about your needs"),
 });
 
+type FormValues = z.infer<typeof formSchema>;
+
 export const ContactForm = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
@@ -33,11 +35,11 @@ export const ContactForm = () => {
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: FormValues) => {
     try {
       const { error } = await supabase
         .from('contact_submissions')
-        .insert([values]);
+        .insert(values);
       
       if (error) throw error;
       
@@ -59,7 +61,7 @@ export const ContactForm = () => {
             <FormItem>
               <FormLabel className="text-white">Name</FormLabel>
               <FormControl>
-                <Input placeholder="Your name" {...field} className="bg-white/10 text-white placeholder:text-white/60" />
+                <Input placeholder="Your name" {...field} className="bg-white/10 text-black placeholder:text-gray-500" />
               </FormControl>
               <FormMessage className="text-red-200" />
             </FormItem>
@@ -72,7 +74,7 @@ export const ContactForm = () => {
             <FormItem>
               <FormLabel className="text-white">Email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="your.email@example.com" {...field} className="bg-white/10 text-white placeholder:text-white/60" />
+                <Input type="email" placeholder="your.email@example.com" {...field} className="bg-white/10 text-black placeholder:text-gray-500" />
               </FormControl>
               <FormMessage className="text-red-200" />
             </FormItem>
@@ -85,7 +87,7 @@ export const ContactForm = () => {
             <FormItem>
               <FormLabel className="text-white">Phone Number</FormLabel>
               <FormControl>
-                <Input type="tel" placeholder="Your phone number" {...field} className="bg-white/10 text-white placeholder:text-white/60" />
+                <Input type="tel" placeholder="Your phone number" {...field} className="bg-white/10 text-black placeholder:text-gray-500" />
               </FormControl>
               <FormMessage className="text-red-200" />
             </FormItem>
@@ -100,7 +102,7 @@ export const ContactForm = () => {
               <FormControl>
                 <Textarea
                   placeholder="Share your business needs or challenges..."
-                  className="min-h-[120px] bg-white/10 text-white placeholder:text-white/60"
+                  className="min-h-[120px] bg-white/10 text-black placeholder:text-gray-500"
                   {...field}
                 />
               </FormControl>
